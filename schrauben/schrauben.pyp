@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Element>
     <Script>
-        <Name>bhb\schrauben.py</Name>
+        <Name>schrauben.py</Name>
         <Title>schrauben</Title>
         <Version>1.0</Version>
     </Script>

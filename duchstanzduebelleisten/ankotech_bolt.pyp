@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Element>
     <Script>
-        <Name>BIMStatik\ankotech_bolt.py</Name>
+        <Name>ankotech_bolt.py</Name>
         <Title>ankotech_bolt</Title>
         <Version>1.0</Version>
     </Script>
