@@ -4,6 +4,7 @@
         <Name>ankotech_bolt.py</Name>
         <Title>ankotech_bolt</Title>
         <Version>1.0</Version>
+        <ReadLastInput>True</ReadLastInput>
     </Script>
     <Page>
         <Name>Page1</Name>
@@ -18,7 +19,7 @@
         </Parameter>
         <Parameter>
             <Name>CountAnchor</Name>
-            <Text>Anzahl Anker</Text>
+            <Text>Anzahl Anker je Dübelleiste</Text>
             <Value>3</Value>
             <ValueType>Integer</ValueType>
         </Parameter>
@@ -39,24 +40,24 @@
             <Text>Querschnitt Stützenkopf</Text>
             <Value>Rechteck</Value>
             <!--<ValueList>Rechteck|Rund|Oval</ValueList>-->
-            <ValueList>Rechteck|Rund</ValueList>-->
+            <ValueList>Linie|Rechteck|Rund</ValueList>-->
             <ValueType>StringComboBox</ValueType>
         </Parameter>
         <Parameter>
             <Name>ColumnWidth</Name>
-            <Text>Länge bei Rechteck, Durchmesser bei Rund</Text>
+            <Text>x bei Linie, Breite bei Rechteck, Durchmesser bei Rund</Text>
             <Value>250</Value>
             <ValueType>Length</ValueType>
         </Parameter>
         <Parameter>
             <Name>ColumnLength</Name>
-            <Text>Breite bei Rechteck, Ignoriert bei Rund</Text>
+            <Text>y bei Linie, Höhe bei Rechteck, Ignoriert bei Rund</Text>
             <Value>250</Value>
             <ValueType>Length</ValueType>
         </Parameter>
         <Parameter>
             <Name>CountPart</Name>
-            <Text>Anzahl Anker</Text>
+            <Text>Anzahl Dübelleisten</Text>
             <Value>6</Value>
             <ValueType>Integer</ValueType>
         </Parameter>
