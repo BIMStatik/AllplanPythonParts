@@ -1,4 +1,4 @@
-﻿# ***************************************************************************
+# ***************************************************************************
 # *                                                                         *
 # *   Copyright (c) 2015 - Bernd Hahnebach <bernd@bimstatik.org>            *
 # *                                                                         *
@@ -20,12 +20,13 @@
 # *                                                                         *
 # ***************************************************************************
 
-"""
-Script for generation of bolts
-"""
+
+# tested with Allplan 2018.1
+print('BIMStatik Schrauben will be loaded')
 
 import NemAll_Python_Geometry as AllplanGeo
-import NemAll_Python_Elements as AllplanElements
+import NemAll_Python_BaseElements as AllplanBaseElements
+import NemAll_Python_BasisElements as AllplanBasisElements
 import NemAll_Python_Utility as AllplanUtil
 import GeometryValidate as GeometryValidate
 
@@ -154,16 +155,19 @@ class Box():
         washer2_solid = AllplanGeo.Transform(washer_solid, translation)
 
         #----------------- CommonProperties
-        com_prop = AllplanElements.CommonProperties()
+        com_prop = AllplanBaseElements.CommonProperties()
         com_prop.GetGlobalProperties()
         com_prop.Pen = 1
         com_prop.Color = bolt_color
-
+        
+        print('debugg')
+        # sieht so aus als git es ein problem mit dem folgenden, falsche parameter ... in 2107
+        
         #------------------ draw solids
-        self.model_ele_list.append(AllplanElements.ModelElement3D(com_prop, screw_solid))
-        self.model_ele_list.append(AllplanElements.ModelElement3D(com_prop, nut_solid))
-        self.model_ele_list.append(AllplanElements.ModelElement3D(com_prop, washer1_solid))
-        self.model_ele_list.append(AllplanElements.ModelElement3D(com_prop, washer2_solid))
+        self.model_ele_list.append(AllplanBasisElements.ModelElement3D(com_prop, screw_solid))
+        self.model_ele_list.append(AllplanBasisElements.ModelElement3D(com_prop, nut_solid))
+        self.model_ele_list.append(AllplanBasisElements.ModelElement3D(com_prop, washer1_solid))
+        self.model_ele_list.append(AllplanBasisElements.ModelElement3D(com_prop, washer2_solid))
  
 
 # screw
