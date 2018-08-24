@@ -1,4 +1,4 @@
-﻿# ***************************************************************************
+# ***************************************************************************
 # *                                                                         *
 # *   Copyright (c) 2015 - Bernd Hahnebach <bernd@bimstatik.org>            *
 # *                                                                         *
@@ -20,12 +20,14 @@
 # *                                                                         *
 # ***************************************************************************
 
-"""
-Hello world template
-"""
+
+# optimized for Allplan 2018.1.x
+# Version 2.0, 2018-08-24
+print('BIMStatik Ancoplus will be loaded')
 
 import NemAll_Python_Geometry as AllplanGeo
-import NemAll_Python_Elements as AllplanElements
+import NemAll_Python_BaseElements as AllplanBaseElements
+import NemAll_Python_BasisElements as AllplanBasisElements
 import math
 
 
@@ -118,7 +120,7 @@ def create_element(build_ele, doc):
     if column_head_cross_section == 'Rechteck':
         if count_part > 8:
             count_part = 8
-        anko_placements = get_anko_placements(count_part, column_width, column_length)
+        anko_placements = get_anko_placements_rectangle(count_part, column_width, column_length)
         # print(anko_placements)
 
     my_list_of_ankoplus_parts = []
@@ -128,7 +130,6 @@ def create_element(build_ele, doc):
         i += 1
         if column_head_cross_section == 'Rund':
             rot = math.pi * 2.0 * i / count_part
-            # print(rot)
             movex = 0.5 * column_width * math.cos(rot)
             movey = 0.5 * column_width * math.sin(rot)
         elif column_head_cross_section == 'Rechteck':
@@ -136,7 +137,12 @@ def create_element(build_ele, doc):
             rot = anko_placements[i][0] * math.pi
             movex = anko_placements[i][1] * column_width
             movey = anko_placements[i][2] * column_length
+        elif column_head_cross_section == 'Linie':
+            rot = math.pi - angle([column_length, 0], [column_length, column_width])
+            movex = 0.5 * column_width / count_part + i * column_width / count_part
+            movey = 0.5 * column_length / count_part + i * column_length / count_part
 
+        print(rot)
         mytranslation = AllplanGeo.Matrix3D()
         mytranslation.Translate(AllplanGeo.Vector3D(movex, movey, 0))
         rotation_axis = AllplanGeo.Line3D(AllplanGeo.Point3D(0,0,0),AllplanGeo.Point3D(0,0,1))
@@ -158,6 +164,19 @@ def create_element(build_ele, doc):
     # count_part AnkoPlus am selben Ort !
 
     
+    # generate value for attribute Bezeichnung
+    if 99 < int(height) < 1000:
+        bez_height = '0' + str(int(height))
+    elif 999 < int(height) < 10000:
+        bez_height = str(int(height))
+    else:
+        bez_height = '0000'
+        print('The height has a value not fitting in AnkoPlus standard geometry! h=', str(height))
+    # print(bez_height)  # keep in mind height is in mm na matter what unit is active in Allplan
+
+    bezeichnung_value = 'D' + diameter_anchor_char + str(count_anchor) + '-' + bez_height
+    # print(bezeichnung_value)
+
     # ein ankoplus ohne groupping
     # anko_part_solids = make_ankoplus_part(diameter_anchor, count_anchor, height, length)
     # model_ele_list = make_model_ele_list(anko_part_solids)
@@ -165,20 +184,22 @@ def create_element(build_ele, doc):
     # we gone group the solids and return these group, see following lines
 
 
+    
 
     #------------------ Define common properties, take global Allplan settings
-    com_prop = AllplanElements.CommonProperties()
+    com_prop = AllplanBaseElements.CommonProperties()
     com_prop.GetGlobalProperties()
     # print(com_prop)
-    prop = AllplanElements.ElementGroupProperties()
-    prop.Name = 'AnkoGroup'
+    prop = AllplanBasisElements.ElementGroupProperties()
+    # prop.Name = 'AnkoGroup'
+    prop.Name = bezeichnung_value
     prop.ModifiableFlag = False
-    prop.MacroSubType = AllplanElements.MacroSubType.eNOI_UseNoSpecialSubType
-    # print(prop)
+    prop.SubType = AllplanBasisElements.SubType.eUseNoSpecialSubType
+    print(prop)
 
     anko_element_group = []
     for anko_plus_part_ele in my_list_of_ankoplus_parts:
-        anko_element_group.append(AllplanElements.ElementGroupElement(com_prop, prop, anko_plus_part_ele))
+        anko_element_group.append(AllplanBasisElements.ElementGroupElement(com_prop, prop, anko_plus_part_ele))
 
     print('\n\nstarttesting move groups and list and allplan model types')
 
@@ -229,8 +250,9 @@ def create_element(build_ele, doc):
 
     #print(anko_element_group2)
     #print(type(anko_element_group2))  # ElementGroupElement
-    #mylist = AllplanElements.GetElementGroupObjectList(anko_element_group2)
+	#mylist = AllplanElements.GetElementGroupObjectList(anko_element_group2)
     # komisch, gibt error, aber in API ist methode definiert ?!?
+	# in 2017 ist die Methode gar nicht mehr definiert und AllplanElements wurde aufgesplittet
     
     # versuch elemente rausziehen verschieben 
     # http://pythonparts.allplan.com/2016-1/documentation.html
@@ -238,7 +260,7 @@ def create_element(build_ele, doc):
     
 #########################################
 # HELPER
-def get_anko_placements(count_part, column_width, column_length):
+def get_anko_placements_rectangle(count_part, column_width, column_length):
     #{i:[rot, movex, movey]}
     anko_placements = {}
     if count_part <= 8:
@@ -269,14 +291,14 @@ def get_anko_placements(count_part, column_width, column_length):
 
 def make_model_ele_list(anko_part_solids):
     #----------------- CommonProperties
-    com_prop = AllplanElements.CommonProperties()
+    com_prop = AllplanBaseElements.CommonProperties()
     com_prop.GetGlobalProperties()
     # print(com_prop)
 
     #------------------ draw solids
     model_ele_list = []
     for part in anko_part_solids:
-        model_ele_list.append(AllplanElements.ModelElement3D(com_prop, part))
+        model_ele_list.append(AllplanBasisElements.ModelElement3D(com_prop, part))
     # print(model_ele_list)
     # print(len(model_ele_list))
     # ist eine ganz normale liste von objekten des Typs ModelElement3D
@@ -373,3 +395,13 @@ def make_two_basebars(d, l):
     # two base bars
     base_bar_solid = AllplanGeo.MakeUnion(base_bar_long, base_bar_short)[1]
     return base_bar_solid
+
+# angle between two vectors
+def dotproduct(v1, v2):
+    return sum((a*b) for a, b in zip(v1, v2))
+
+def length(v):
+    return math.sqrt(dotproduct(v, v))
+
+def angle(v1, v2):
+    return math.acos(dotproduct(v1, v2) / (length(v1) * length(v2)))
