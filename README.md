@@ -5,7 +5,8 @@
 
 #### Im Büropfad
 + Allplan Neustart nötig wenn Dateien verschoben oder umbenannt wurden.
-+ Für den realen Einsatz am besten geeignet.
++ Für den realen Einsatz am besten geeignet wenn das PP nicht als PP im TB gespeichert wird.
++ Ist bei diesen PPs hier der Fall.
 
 #### Im Projekt
 + Macht zum testen und zum weiterentwickeln unbedingt Sinn.
