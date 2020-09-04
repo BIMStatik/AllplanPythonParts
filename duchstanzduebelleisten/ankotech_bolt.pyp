@@ -37,7 +37,7 @@
         </Parameter>
        <Parameter>
             <Name>ColumnHeadCrossSection</Name>
-            <Text>Querschnitt Stützenkopf</Text>
+            <Text>Verlegung</Text>
             <Value>Rechteck</Value>
             <!--<ValueList>Rechteck|Rund|Oval</ValueList>-->
             <ValueList>Linie|Rechteck|Rund</ValueList>-->
@@ -45,13 +45,13 @@
         </Parameter>
         <Parameter>
             <Name>ColumnWidth</Name>
-            <Text>x bei Linie, Breite bei Rechteck, Durchmesser bei Rund</Text>
+            <Text>Linie: hor. Länge, Rechteck: Breite, Rund: Durchmesser</Text>
             <Value>250</Value>
             <ValueType>Length</ValueType>
         </Parameter>
         <Parameter>
             <Name>ColumnLength</Name>
-            <Text>y bei Linie, Höhe bei Rechteck, Ignoriert bei Rund</Text>
+            <Text>Linie: vert. Länge, Rechteck: Höhe, Rund: Ignoriert</Text>
             <Value>250</Value>
             <ValueType>Length</ValueType>
         </Parameter>
