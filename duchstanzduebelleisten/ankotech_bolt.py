@@ -189,7 +189,7 @@ def create_element(build_ele, doc):
     #------------------ Define common properties, take global Allplan settings
     com_prop = AllplanBaseElements.CommonProperties()
     com_prop.GetGlobalProperties()
-    # print(com_prop)
+    print(com_prop)
     prop = AllplanBasisElements.ElementGroupProperties()
     # prop.Name = 'AnkoGroup'
     prop.Name = bezeichnung_value
@@ -197,12 +197,34 @@ def create_element(build_ele, doc):
     prop.SubType = AllplanBasisElements.SubType.eUseNoSpecialSubType
     print(prop)
 
+    # more attributes see https://campus.allplan.com/de/forum/themen/topic/topics/pythonparts-1/materialattribut-setzen.html?tx_nemconnections_pi6[isloggin]=1
+    attr_list = []
+    # Material attribute
+    attr_list.append(AllplanBaseElements.AttributeString(508, "TypX"))
+    # Extract all parameters from building element and add them as attribute to Allplan element
+    # sind die Attribute aus der Eingabepalette
+    #print(build_ele.get_parameter_dict())
+    #param_dict = build_ele.get_parameter_dict()
+    #if param_dict is not None:
+    #    attr_list.append(AllplanBaseElements.AttributeString(38, repr(param_dict)))
+    # add to attribute set
+    attr_set_list = []
+    attr_set_list.append(AllplanBaseElements.AttributeSet(attr_list))
+    # add to attributes
+    all_attributes = AllplanBaseElements.Attributes(attr_set_list)
+    print(all_attributes)
+
     anko_element_group = []
     for anko_plus_part_ele in my_list_of_ankoplus_parts:
-        anko_element_group.append(AllplanBasisElements.ElementGroupElement(com_prop, prop, anko_plus_part_ele))
+        new_elem = AllplanBasisElements.ElementGroupElement(
+            com_prop,
+            prop,
+            anko_plus_part_ele
+        )
+        new_elem.SetAttributes(all_attributes)
+        anko_element_group.append(new_elem)
 
     print('\n\nstarttesting move groups and list and allplan model types')
-
     #print(type(anko_element_group))
     #print(len(anko_element_group))
     #print('\n')
@@ -245,6 +267,7 @@ def create_element(build_ele, doc):
     print('endtesting\n\n')
     
     return (anko_element_group, [])
+    # erste ist die elems liste und die zweite ist die handle liste
 
 
 
