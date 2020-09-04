@@ -4,6 +4,7 @@
         <Name>schrauben.py</Name>
         <Title>schrauben</Title>
         <Version>1.0</Version>
+        <ReadLastInput>False</ReadLastInput>
     </Script>
 
     <Page>
