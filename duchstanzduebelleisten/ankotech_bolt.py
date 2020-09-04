@@ -404,4 +404,10 @@ def length(v):
     return math.sqrt(dotproduct(v, v))
 
 def angle(v1, v2):
-    return math.acos(dotproduct(v1, v2) / (length(v1) * length(v2)))
+    if length(v1) == 0:
+        # print("v1 is null")
+        print(0.5 * math.pi)
+        return 0.5 * math.pi
+    else:
+        print(math.acos(dotproduct(v1, v2) / (length(v1) * length(v2))))
+        return math.acos(dotproduct(v1, v2) / (length(v1) * length(v2)))
