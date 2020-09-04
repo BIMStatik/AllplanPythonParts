@@ -1,5 +1,13 @@
 # Installation 
-Die PythonParts können in ein Projekt oder im Büropfad (STD) kopiert werden. Dort in die jeweiligen Unterverzeichnisse kopieren.
++ Die PythonParts können in ein Projekt oder im Büropfad (STD) kopiert werden.
++ Dort in die jeweiligen Unterverzeichnisse kopieren.
+
+#### Im Büropfad
++ Allplan Neustart nötig wenn Dateien verschoben oder umbenannt wurden.
++ Für den realen Einsatz am besten geeignet.
+
+#### Im Projekt
++ Macht zum testen und zum weiterentwickeln unbedingt Sinn.
 
 #### PythonParts Part file
 + Die *.pyp datei ist die Definition der Palette (Die Oberfläche zur Eingabe der Daten).
